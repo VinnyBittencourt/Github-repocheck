@@ -11,12 +11,13 @@ export default createGlobalStyle`
     }
 
     body{
-        background: linear-gradient(rgba(237,237,237,0.75) 10%, rgba(237,237,237,1) 100%), url(${githubbackground}) 90% 20%;
+        background: linear-gradient(rgba(230,230,230,0.75) 10%, rgba(230,230,230,1) 100%), url(${githubbackground}) 90% 20%;
         /* background-size: */
         background-repeat: no-repeat;
         /* background-position: right top; */
         height: 100vh;
         -webkit-font-smoothing: antialiased;
+        background-attachment: fixed;
     }
 
     border-style, input, button{

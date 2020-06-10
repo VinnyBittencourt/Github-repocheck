@@ -50,5 +50,24 @@ export const Repositories = styled.div`
 
     a {
         background: #fff;
+        height: 150px;
+        padding: 20px;
+        text-decoration: none;
+
+        display: flex;
+    }
+
+    a img {
+        height: 100px;
+        margin: auto 0;
+    }
+
+    a div {
+        padding: 0 0 0 20px;
+        color: #333;
+    }
+
+    a strong {
+        font-size: 20px;
     }
 `;
