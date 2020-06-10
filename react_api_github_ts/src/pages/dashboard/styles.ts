@@ -45,7 +45,7 @@ export const Form = styled.form`
 `;
 
 export const Repositories = styled.div`
-    margin-top: 80px;
+    margin-top: 55px;
     max-width: 700px;
 
     a {
@@ -55,6 +55,7 @@ export const Repositories = styled.div`
         text-decoration: none;
         margin-bottom: 20px;
         transition: 0.2s;
+        border-radius: 4px;
 
         display: flex;
     }
