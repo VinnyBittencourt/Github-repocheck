@@ -53,6 +53,8 @@ export const Repositories = styled.div`
         height: 150px;
         padding: 20px;
         text-decoration: none;
+        margin-bottom: 20px;
+        transition: 0.2s;
 
         display: flex;
     }
@@ -69,5 +71,9 @@ export const Repositories = styled.div`
 
     a strong {
         font-size: 20px;
+    }
+
+    a:hover {
+        transform: translateX(25px);
     }
 `;
