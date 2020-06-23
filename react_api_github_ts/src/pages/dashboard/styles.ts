@@ -77,4 +77,9 @@ export const Repositories = styled.div`
     a:hover {
         transform: translateX(25px);
     }
+
+    a svg {
+        color: #cbcbd6;
+        margin: auto 0;
+    }
 `;
