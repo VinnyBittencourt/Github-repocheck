@@ -1,15 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
 import api from '../../services/api';
-import { Title, Form, Repositories } from './styles';
+import { Title, Form, Repositories, Error } from './styles';
 import logoImg from '../../assets/comp3.png';
 
+interface Repository {
+    full_name: string;
+    description: string;
+    owner: {
+        login: string;
+        avatar_url: string;
+    };
+}
+
 const Dashboard: React.FC = () => {
-    const [repositories, setRepositories] = useState([]);
+    const [repositories, setRepositories] = useState<Repository[]>([]);
+    const [inputError, setInputError] = useState('');
     const [newRepo, setNewRepo] = useState('');
 
-    function handleAddRepo() {
+    async function handleAddRepo(e: FormEvent<HTMLFormElement>) {
         //Adição de um novo repo consumindo a api do git
+        e.preventDefault();
+
+        if (!newRepo) {
+            setInputError('Digite o usuário/nome do repositório');
+            return;
+        }
+
+        try {
+            const response = await api.get<Repository>(`/repos/${newRepo}`);
+            const repository = response.data;
+            setRepositories([...repositories, repository]);
+            setNewRepo('');
+            setInputError('');
+        } catch (err) {
+            setInputError('Erro na busca por esse repositório');
+        }
     }
     return (
         <>
@@ -29,22 +55,23 @@ const Dashboard: React.FC = () => {
                 />
                 <button type="submit">Pesquisar</button>
             </Form>
+            {inputError && <Error>{inputError}</Error>}
             <Repositories>
-                <a href="#">
-                    <img
-                        src="https://avatars1.githubusercontent.com/u/38366235?s=400&u=cf8426283473ed0f5a72ec85d4dc10fef3fa5b04&v=4"
-                        alt="Profile pic"
-                    />
-                    <div className="">
-                        <strong>facebook/react</strong>
-                        <p>
-                            React is an open source JavaScript library used for
-                            designing user iterfaces
-                        </p>
-                    </div>
-                    <FiChevronRight size={20} />
-                </a>
+                {repositories.map(repo => (
+                    <a href="#" key={repo.full_name}>
+                        <img
+                            src={repo.owner.avatar_url}
+                            alt={repo.owner.login}
+                        />
+                        <div className="">
+                            <strong>{repo.full_name}</strong>
+                            <p>{repo.description}</p>
+                        </div>
+                        <FiChevronRight size={20} />
+                    </a>
+                ))}
             </Repositories>
+            {/* </HTMLFormElement> */}
         </>
     );
 };
