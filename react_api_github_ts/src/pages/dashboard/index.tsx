@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useEffect } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
 import api from '../../services/api';
 import { Title, Form, Repositories, Error } from './styles';
@@ -17,6 +17,22 @@ const Dashboard: React.FC = () => {
     const [repositories, setRepositories] = useState<Repository[]>([]);
     const [inputError, setInputError] = useState('');
     const [newRepo, setNewRepo] = useState('');
+
+    useEffect(() => {
+        const repositorios = localStorage.getItem(
+            '@GithubExplorer:repositories',
+        );
+        if (repositorios) {
+            setRepositories(JSON.parse(repositorios));
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem(
+            '@GithubExplorer:repositories',
+            JSON.stringify(repositories),
+        );
+    }, [repositories]); //Toda vez que o array repositories for alterado o useEffect será executado
 
     async function handleAddRepo(e: FormEvent<HTMLFormElement>) {
         //Adição de um novo repo consumindo a api do git
@@ -46,7 +62,7 @@ const Dashboard: React.FC = () => {
                 </h2>
             </div>
             <Title>Explorer repositórios no GitHub</Title>
-            <Form onSubmit={handleAddRepo}>
+            <Form hasError={!!inputError} onSubmit={handleAddRepo}>
                 <input
                     type="text"
                     placeholder="Digite o nome do repositorio"
