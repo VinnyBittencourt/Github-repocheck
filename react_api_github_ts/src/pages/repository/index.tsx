@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouteMatch, Link } from 'react-router-dom';
-import { FiChevronLeft } from 'react-icons/fi';
-import { Header, Container } from './styles';
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { Header, Container, Issues } from './styles';
 
 import logoImg from '../../assets/comp3.png';
 
@@ -34,22 +34,31 @@ const Repository: React.FC = () => {
                         <strong>Facebook/React</strong>
                         <p>Descrição do respositório</p>
                     </div>
-                    <ul>
-                        <li>
-                            <strong>150320</strong>
-                            <span>Starts</span>
-                        </li>
-                        <li>
-                            <strong>150320</strong>
-                            <span>Forks</span>
-                        </li>
-                        <li>
-                            <strong>627</strong>
-                            <span>Issues</span>
-                        </li>
-                    </ul>
                 </header>
+                <ul>
+                    <li>
+                        <strong>150320</strong>
+                        <span>Starts</span>
+                    </li>
+                    <li>
+                        <strong>150320</strong>
+                        <span>Forks</span>
+                    </li>
+                    <li>
+                        <strong>627</strong>
+                        <span>Issues</span>
+                    </li>
+                </ul>
             </Container>
+            <Issues>
+                <Link to="">
+                    <div>
+                        <strong>Nome do repositório</strong>
+                        <p>Descrição do respositório</p>
+                    </div>
+                    <FiChevronRight size={20} />
+                </Link>
+            </Issues>
         </>
     );
 };
