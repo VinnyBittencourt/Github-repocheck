@@ -19,6 +19,7 @@ interface Repository {
     open_issues_count: number;
     owner: {
         avatar_url: string;
+        login: string;
     };
 }
 
@@ -86,40 +87,50 @@ const Repository: React.FC = () => {
                     Voltar
                 </Link>
             </Header>
-            <Container>
-                <header>
-                    <img
-                        src="https://avatars3.githubusercontent.com/u/69631?v=4"
-                        alt="facebook"
-                    ></img>
-                    <div>
-                        <strong>Facebook/React</strong>
-                        <p>Descrição do respositório</p>
-                    </div>
-                </header>
-                <ul>
-                    <li>
-                        <strong>150320</strong>
-                        <span>Starts</span>
-                    </li>
-                    <li>
-                        <strong>150320</strong>
-                        <span>Forks</span>
-                    </li>
-                    <li>
-                        <strong>627</strong>
-                        <span>Issues</span>
-                    </li>
-                </ul>
-            </Container>
+            {repository && (
+                <Container>
+                    <header>
+                        <img
+                            src={repository.owner.avatar_url}
+                            alt={repository.owner.login}
+                        ></img>
+                        <div>
+                            <strong>{repository.full_name}</strong>
+                            <p>{repository.description}</p>
+                        </div>
+                    </header>
+                    <ul>
+                        <li>
+                            <strong>{repository.stargazers_count}</strong>
+                            <span>Stars</span>
+                        </li>
+                        <li>
+                            <strong>{repository.forks_count}</strong>
+                            <span>Forks</span>
+                        </li>
+                        <li>
+                            <strong>{repository.open_issues_count}</strong>
+                            <span>Issues</span>
+                        </li>
+                    </ul>
+                </Container>
+            )}
+
             <Issues>
-                <Link to="">
-                    <div>
-                        <strong>Nome do repositório</strong>
-                        <p>Descrição do respositório</p>
-                    </div>
-                    <FiChevronRight size={20} />
-                </Link>
+                {issues.map(issue => (
+                    <a
+                        href={issue.html_url}
+                        key={issue.id}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <div>
+                            <strong>{issue.title}</strong>
+                            <p>{issue.user.login}</p>
+                        </div>
+                        <FiChevronRight size={20} />
+                    </a>
+                ))}
             </Issues>
         </>
     );
