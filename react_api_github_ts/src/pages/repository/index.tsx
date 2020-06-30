@@ -10,11 +10,31 @@ import logoImg from '../../assets/comp3.png';
 interface RepositoryParams {
     repository: string;
 }
+
+interface Repository {
+    full_name: string;
+    description: string;
+    stargazers_count: number;
+    forks_count: number;
+    open_issues_count: number;
+    owner: {
+        avatar_url: string;
+    };
+}
+
+interface Issue {
+    id: number;
+    html_url: string;
+    title: string;
+    user: {
+        login: string;
+    };
+}
 const Repository: React.FC = () => {
     const { params } = useRouteMatch<RepositoryParams>();
-    const [repository, setRepository] = useState(null);
-    const [issues, setIssues] = useState([]);
-    const [forks, setForks] = useState([]);
+    const [repository, setRepository] = useState<Repository | null>(null);
+    const [issues, setIssues] = useState<Issue[]>([]);
+    // const [forks, setForks] = useState([]);
 
     // useEffect(() => {
     //     api.get(`repos/${params.repository}`).then(response => {
@@ -42,12 +62,12 @@ const Repository: React.FC = () => {
     //Promise all para chamar tudo de uma vez
     useEffect(() => {
         async function loadData(): Promise<void> {
-            const [repositorios, issues] = await Promise.all([
+            const [repositorios, issue] = await Promise.all([
                 await api.get(`repos/${params.repository}`),
                 await api.get(`repos/${params.repository}/issues`),
             ]);
-            console.log(repositorios);
-            console.log(issues);
+            setRepository(repositorios.data);
+            setIssues(issue.data);
         }
         loadData();
     }, [params.repository]);
